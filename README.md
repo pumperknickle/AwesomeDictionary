@@ -1,4 +1,4 @@
-# AwesomeDictionary
+# Awesome Dictionary
 
 AwesomeDictionary is a pure Swift implementation of a Dictionary or an abstract data type composed of a collection of (key, value) pairs, such that each possible key appears at most once in the collection. Instead of using hash tables, it uses a radix trie, which is essentially a compressed trie.
 
