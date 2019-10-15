@@ -19,7 +19,7 @@ AwesomeDictionary is a pure Swift implementation of a Dictionary or an abstract 
 - Easily serializable to and from JSON and other encodings.
   
   
-### Installation
+## Installation
 
 #### Swift Package Manager
 
@@ -31,7 +31,7 @@ dependencies: [
 ]
 ```
 
-### Usage
+## Usage
 
 #### Importing
 
