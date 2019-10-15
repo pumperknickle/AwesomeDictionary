@@ -27,7 +27,7 @@ Add AwesomeDictionary to Package.swift and the appropriate targets
 
 ```swift
 dependencies: [
-.package(url: "https://github.com/pumperknickle/AwesomeDictionary.git", from: "1.0.0")
+.package(url: "https://github.com/pumperknickle/AwesomeDictionary.git", from: "0.0.1")
 ]
 ```
 
