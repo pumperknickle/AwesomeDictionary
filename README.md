@@ -65,7 +65,7 @@ When setting, a new structure is returned with the new key value pair inserted.
 let modifiedMap = newMapping.setting(key: "foo", value: [["fooValue"]])
 ```
 
-#### Deleting keys
+#### Deleting
 
 When deleting, a new structure is returned with the entry corresponding to the key deleted.
 
