@@ -3,15 +3,16 @@
 AwesomeDictionary is a pure Swift implementation of a Dictionary or an abstract data type composed of a collection of (key, value) pairs, such that each possible key appears at most once in the collection. Instead of using hash tables, it uses a radix trie, which is essentially a compressed trie.
 
 ### Features
-#### Functional
+
+Functional
 All operations create new objects, and all dictionaries in AwesomeDictionary are immutable.
-#### Generic
+Generic
 Can be used with any key - value types (that conform to BinaryEncodable and Codable respectively).
-#### Deterministic
+Deterministic
 Two dictionaries with the same key value pairs are guaranteed to be the same byte for byte (including for encoding/decoding).
-#### Efficient
+Efficient
 Modify existing dictionaries efficiently and functionally
-#### Codable
+Codable
 Easily serializable to and from JSON encoding
   
   
