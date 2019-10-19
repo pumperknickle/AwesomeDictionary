@@ -12,6 +12,7 @@ public protocol Node: Codable {
     func get(key: [Bool]) -> V?
     func setting(key: [Bool], to value: V) -> Self
     func deleting(key: [Bool]) -> Self?
+	func first() -> ([Bool], V)
     
     init(prefix: [Bool], value: V?, trueNode: Self?, falseNode: Self?)
 }
@@ -98,4 +99,15 @@ public extension Node {
         }
         return changing(truthValue: firstValue, node: childResult)
     }
+	
+	func first() -> ([Bool], V) {
+		if let value = value {
+			return (prefix, value)
+		}
+		if let falseResult = falseNode?.first() {
+			return (prefix + falseResult.0, falseResult.1)
+		}
+		let trueResult = trueNode!.first()
+		return (prefix + trueResult.0, trueResult.1)
+	}
 }

@@ -58,6 +58,12 @@ final class MappingSpec: QuickSpec {
             it("should delete correctly") {
                 expect(data1).to(equal(data6))
             }
+			it("should get first correctly") {
+				expect(newMap.first()).to(beNil())
+				expect(map1.first()).toNot(beNil())
+				expect([key1, key2, key3]).to(contain([map1.first()!.0]))
+				expect([value1, value2, value3]).to(contain([map1.first()!.1]))
+			}
         }
     }
 }

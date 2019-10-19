@@ -18,6 +18,7 @@ public protocol Map: Codable {
     func isEmpty() -> Bool
     func keys() -> [Key]
     func values() -> [Value]
+	func first() -> Element?
     
     init(trueNode: NodeType?, falseNode: NodeType?)
     init()
@@ -80,4 +81,16 @@ public extension Map {
             return elements + [(entry, self[entry]!)]
         })
     }
+	
+	func first() -> Element? {
+		if let falseResult = falseNode?.first() {
+			guard let key = Key(raw: falseResult.0) else { return nil }
+			return (key, falseResult.1)
+		}
+		if let trueResult = trueNode?.first() {
+			guard let key = Key(raw: trueResult.0) else { return nil }
+			return (key, trueResult.1)
+		}
+		return nil
+	}
 }
