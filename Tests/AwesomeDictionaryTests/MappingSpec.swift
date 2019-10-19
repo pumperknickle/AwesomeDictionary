@@ -65,11 +65,12 @@ final class MappingSpec: QuickSpec {
 				expect([value1, value2, value3]).to(contain([map1.first()!.1]))
 			}
 			let map7 = newMap.setting(key: key1, value: value1).setting(key: key3, value: value3).setting(key: key4, value: value4)
-			let map8 = newMap.setting(key: key2, value: value2)
+			let map8 = newMap.setting(key: key2, value: value2).setting(key: key1, value: value2)
 			it("should overwrite correctly") {
 				let overwritten = map7.overwrite(with: map8)
 				expect(overwritten.keys()).to(contain([key1, key2, key3, key4]))
-				expect(overwritten.values()).to(contain([value1, value2, value3, value4]))
+				expect(overwritten.values()).to(contain([value2, value3, value4]))
+				expect(overwritten.values()).toNot(contain([value1]))
 			}
         }
     }
