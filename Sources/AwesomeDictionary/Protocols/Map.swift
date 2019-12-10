@@ -18,6 +18,8 @@ public protocol Map: Codable {
     func isEmpty() -> Bool
     func keys() -> [Key]
     func values() -> [Value]
+	func first() -> Element?
+	func overwrite(with otherMap: Self) -> Self
     
     init(trueNode: NodeType?, falseNode: NodeType?)
     init()
@@ -80,4 +82,25 @@ public extension Map {
             return elements + [(entry, self[entry]!)]
         })
     }
+	
+	func first() -> Element? {
+		if let falseResult = falseNode?.first() {
+			guard let key = Key(raw: falseResult.0) else { return nil }
+			return (key, falseResult.1)
+		}
+		if let trueResult = trueNode?.first() {
+			guard let key = Key(raw: trueResult.0) else { return nil }
+			return (key, trueResult.1)
+		}
+		return nil
+	}
+	
+	func overwrite(with otherMap: Self) -> Self {
+		if ((self.trueNode == nil) != (otherMap.trueNode == nil) && (self.falseNode == nil) != (otherMap.falseNode == nil)) {
+			return Self(trueNode: self.trueNode ?? otherMap.trueNode!, falseNode: self.falseNode ?? otherMap.falseNode!)
+		}
+		return otherMap.elements().lazy.reduce(self, { (result, entry) -> Self in
+            return result.setting(key: entry.0, value: entry.1)
+        })
+	}
 }
