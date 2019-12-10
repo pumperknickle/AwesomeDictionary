@@ -2,7 +2,7 @@ import Foundation
 import Bedrock
 
 public struct Mapping<Key: BinaryEncodable, Value: Codable>: Map {
-    public typealias NodeType = TrieNode<Value>
+    public typealias NodeType = EnumBasedNode<Value>
     
     private let rawTrueNode: NodeType?
     private let rawFalseNode: NodeType?
