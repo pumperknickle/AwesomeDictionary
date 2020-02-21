@@ -17,7 +17,31 @@ public protocol Node: Codable {
     init(prefix: [Bool], value: V?, trueNode: Self?, falseNode: Self?)
 }
 
+public enum CodingKeys: String, CodingKey {
+    case prefix
+    case value
+    case trueNode
+    case falseNode
+}
+
 public extension Node {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let prefix = try container.decode(String.self, forKey: .prefix)
+        let value = try? container.decode(V.self, forKey: .value)
+        let trueNode = try? container.decode(Self.self, forKey: .trueNode)
+        let falseNode = try? container.decode(Self.self, forKey: .falseNode)
+        self.init(prefix: prefix.bools(), value: value, trueNode: trueNode, falseNode: falseNode)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(prefix.literal(), forKey: .prefix)
+        if let value = value { try container.encode(value, forKey: .value) }
+        if let trueNode = trueNode { try container.encode(trueNode, forKey: .trueNode) }
+        if let falseNode = falseNode { try container.encode(falseNode, forKey: .falseNode) }
+    }
+    
     func getNode(truthValue: Bool) -> Self? {
         return truthValue ? trueNode : falseNode
     }
