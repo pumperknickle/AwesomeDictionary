@@ -19,6 +19,7 @@ public protocol Map: Codable {
     func keys() -> [Key]
     func values() -> [Value]
 	func first() -> Element?
+    func contains(_ key: Key) -> Bool
 	func overwrite(with otherMap: Self) -> Self
     
     init(trueNode: NodeType?, falseNode: NodeType?)
@@ -41,6 +42,10 @@ public extension Map {
     func getRoot(truthValue: Bool) -> NodeType? {
         return truthValue ? trueNode : falseNode
     }
+    
+    func contains(_ key: Key) -> Bool {
+         return self[key] != nil
+     }
     
     subscript(key: Key) -> Value? {
         let serializedKey = key.toBoolArray()
