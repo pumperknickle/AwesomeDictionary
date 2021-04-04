@@ -134,4 +134,33 @@ public extension Node {
 		let trueResult = trueNode!.first()
 		return (prefix + trueResult.0, trueResult.1)
 	}
+    
+    func merge(with other: Self, combine: (V, V) -> V) -> Self {
+        if self.prefix == other.prefix {
+            let newTrueNode = trueNode != nil ? (other.trueNode != nil ? trueNode!.merge(with: other.trueNode!, combine: combine) : trueNode!) : (other.trueNode != nil ? other.trueNode! : nil)
+            let newFalseNode = falseNode != nil ? (other.falseNode != nil ? falseNode!.merge(with: other.falseNode!, combine: combine) : falseNode!) : (other.falseNode != nil ? other.falseNode! : nil)
+            let newValue = value != nil ? (other.value != nil ? combine(value!, other.value!) : value) : (other.value != nil ? other.value : nil)
+            return Self(prefix: self.prefix, value: newValue, trueNode: newTrueNode, falseNode: newFalseNode)
+        }
+        if prefix.starts(with: other.prefix) {
+            let suffix = prefix - other.prefix
+            let firstSuffix = suffix.first!
+            guard let currentChild = (firstSuffix ? other.trueNode : other.falseNode) else {
+                return other.changing(truthValue: firstSuffix, node: changing(prefix: suffix))
+            }
+            return other.changing(truthValue: firstSuffix, node: changing(prefix: suffix).merge(with: currentChild, combine: combine))
+        }
+        if other.prefix.starts(with: prefix) {
+            let suffix = other.prefix - prefix
+            let firstSuffix = suffix.first!
+            guard let currentChild = (firstSuffix ? trueNode : falseNode) else {
+                return changing(truthValue: firstSuffix, node: other.changing(prefix: suffix))
+            }
+            return changing(truthValue: firstSuffix, node: other.changing(prefix: suffix).merge(with: currentChild, combine: combine))
+        }
+        let commonPrefix = other.prefix ~> prefix
+        let nodeSuffix = other.prefix - commonPrefix
+        let suffix = prefix - commonPrefix
+        return Self(prefix: commonPrefix, value: nil, trueNode: nil, falseNode: nil).changing(truthValue: nodeSuffix.first!, node: other.changing(prefix: nodeSuffix)).changing(truthValue: suffix.first!, node: changing(prefix: suffix))
+    }
 }

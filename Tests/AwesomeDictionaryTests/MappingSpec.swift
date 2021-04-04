@@ -49,7 +49,7 @@ final class MappingSpec: QuickSpec {
             let combined = map4.overwrite(with: map1)
             let data4 = try! JSONEncoder().encode(combined)
             let data5 = try! JSONEncoder().encode(map5)
-            it("merging should equal") {
+            it("overwriting should equal") {
                 expect(combined[key4]!).to(equal(value4))
                 expect(data4).to(equal(data5))
             }
@@ -72,6 +72,21 @@ final class MappingSpec: QuickSpec {
 				expect(overwritten.values()).to(contain([value2, value3, value4]))
 				expect(overwritten.values()).toNot(contain([value1]))
 			}
+            let map9 = newMap.setting(key: key1, value: value1).setting(key: key2, value: value2)
+            let map10 = newMap.setting(key: key1, value: value3)
+            let map11 = newMap.setting(key: key2, value: value4)
+            it("should add arrays in values") {
+                let overwritten = map9.merge(with: map10, combine: +)
+                expect(overwritten.keys()).to(contain([key1, key2]))
+                expect(overwritten[key1]).toNot(beNil())
+                expect(overwritten[key1]).to(contain([value1.first!, value3.first!]))
+                expect(overwritten[key1]!.count).to(equal(2))
+                let overwritten2 = overwritten.merge(with: map11, combine: +)
+                expect(overwritten2.keys()).to(contain([key1, key2]))
+                expect(overwritten2[key2]).toNot(beNil())
+                expect(overwritten2[key2]).to(contain([value2.first!, value4.first!]))
+                expect(overwritten2[key2]!.count).to(equal(2))
+            }
         }
     }
 }

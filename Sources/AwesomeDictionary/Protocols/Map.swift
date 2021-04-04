@@ -101,11 +101,14 @@ public extension Map {
 	}
 	
 	func overwrite(with otherMap: Self) -> Self {
-		if ((self.trueNode == nil) != (otherMap.trueNode == nil) && (self.falseNode == nil) != (otherMap.falseNode == nil)) {
-			return Self(trueNode: self.trueNode ?? otherMap.trueNode!, falseNode: self.falseNode ?? otherMap.falseNode!)
-		}
-		return otherMap.elements().lazy.reduce(self, { (result, entry) -> Self in
-            return result.setting(key: entry.0, value: entry.1)
-        })
+        return merge(with: otherMap) { (left, right) -> Value in
+            return right
+        }
 	}
+    
+    func merge(with other: Self, combine: (Value, Value) -> Value) -> Self {
+        let newTrueNode = trueNode != nil ? (other.trueNode != nil ? trueNode!.merge(with: other.trueNode!, combine: combine) : trueNode!) : (other.trueNode != nil ? other.trueNode! : nil)
+        let newFalseNode = falseNode != nil ? (other.falseNode != nil ? falseNode!.merge(with: other.falseNode!, combine: combine) : falseNode!) : (other.falseNode != nil ? other.falseNode! : nil)
+        return Self(trueNode: newTrueNode, falseNode: newFalseNode)
+    }
 }
