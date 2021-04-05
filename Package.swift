@@ -11,7 +11,7 @@ let package = Package(
             targets: ["AwesomeDictionary"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/pumperknickle/Bedrock.git", from: "0.0.4"),
+        .package(url: "https://github.com/pumperknickle/Bedrock.git", from: "0.2.0"),
         .package(url: "https://github.com/Quick/Quick.git", from: "2.1.0"),
         .package(url: "https://github.com/Quick/Nimble.git", from: "8.0.2"),
     ],

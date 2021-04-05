@@ -6,26 +6,8 @@
         "repositoryURL": "https://github.com/pumperknickle/Bedrock.git",
         "state": {
           "branch": null,
-          "revision": "44dee0b98048a7aec35216e2e6b13f90d85d3080",
-          "version": "0.0.4"
-        }
-      },
-      {
-        "package": "CwlCatchException",
-        "repositoryURL": "https://github.com/mattgallagher/CwlCatchException.git",
-        "state": {
-          "branch": null,
-          "revision": "7cd2f8cacc4d22f21bc0b2309c3b18acf7957b66",
-          "version": "1.2.0"
-        }
-      },
-      {
-        "package": "CwlPreconditionTesting",
-        "repositoryURL": "https://github.com/mattgallagher/CwlPreconditionTesting.git",
-        "state": {
-          "branch": null,
-          "revision": "c228db5d2ad1b01ebc84435e823e6cca4e3db98b",
-          "version": "1.2.0"
+          "revision": "6112a641374616f1fe721ceb2762054e2f6ccfed",
+          "version": "0.2.1"
         }
       },
       {
@@ -33,8 +15,8 @@
         "repositoryURL": "https://github.com/Quick/Nimble.git",
         "state": {
           "branch": null,
-          "revision": "6abeb3f5c03beba2b9e4dbe20886e773b5b629b6",
-          "version": "8.0.4"
+          "revision": "7a46a5fc86cb917f69e3daf79fcb045283d8f008",
+          "version": "8.1.2"
         }
       },
       {
@@ -42,8 +24,8 @@
         "repositoryURL": "https://github.com/Quick/Quick.git",
         "state": {
           "branch": null,
-          "revision": "33682c2f6230c60614861dfc61df267e11a1602f",
-          "version": "2.2.0"
+          "revision": "09b3becb37cb2163919a3842a4c5fa6ec7130792",
+          "version": "2.2.1"
         }
       }
     ]
