@@ -1,12 +1,12 @@
 import Foundation
 import Bedrock
 
-public struct Set<Key: BinaryEncodable> {
+public struct TrieBasedSet<Key: BinaryEncodable> {
     private let rawTrueNode: NodeType?
     private let rawFalseNode: NodeType?
 }
 
-extension Set: UniqueCollection {
+extension TrieBasedSet: UniqueCollection {
     public typealias Value = Singleton
     public typealias NodeType = EnumBasedNode<Value>
     

@@ -6,7 +6,7 @@ import Bedrock
 
 final class SetSpec: QuickSpec {
     override func spec() {
-        let newSet = Set<String>()
+        let newSet = TrieBasedSet<String>()
         let key1 = "foo"
         let key2 = "bar"
         let key3 = "foobar"
