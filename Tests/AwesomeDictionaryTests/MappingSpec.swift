@@ -87,6 +87,12 @@ final class MappingSpec: QuickSpec {
                 expect(overwritten2[key2]).to(contain([value2.first!, value4.first!]))
                 expect(overwritten2[key2]!.count).to(equal(2))
             }
+            it("should keep original map same if merging with empty") {
+                let combinedWithNothing = map9.merge(with: newMap, combine: +)
+                expect(combinedWithNothing).to(equal(map9))
+                let overwritten = newMap.merge(with: map9, combine: +)
+                expect(overwritten).to(equal(map9))
+            }
         }
     }
 }

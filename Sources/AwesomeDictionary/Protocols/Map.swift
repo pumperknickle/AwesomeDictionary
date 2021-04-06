@@ -1,7 +1,7 @@
 import Foundation
 import Bedrock
 
-public protocol Map: Codable {
+public protocol Map: Codable, Equatable {
     associatedtype Key: BinaryEncodable
     associatedtype Value
     associatedtype NodeType: Node where NodeType.V == Value
@@ -110,5 +110,9 @@ public extension Map {
         let newTrueNode = trueNode != nil ? (other.trueNode != nil ? trueNode!.merge(with: other.trueNode!, combine: combine) : trueNode!) : (other.trueNode != nil ? other.trueNode! : nil)
         let newFalseNode = falseNode != nil ? (other.falseNode != nil ? falseNode!.merge(with: other.falseNode!, combine: combine) : falseNode!) : (other.falseNode != nil ? other.falseNode! : nil)
         return Self(trueNode: newTrueNode, falseNode: newFalseNode)
+    }
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.trueNode == rhs.trueNode && lhs.falseNode == rhs.falseNode
     }
 }

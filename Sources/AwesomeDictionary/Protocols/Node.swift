@@ -1,7 +1,7 @@
 import Foundation
 import Bedrock
 
-public protocol Node: Codable {
+public protocol Node: Codable, Equatable {
     associatedtype V: Codable
     
     var prefix: [Bool]! { get }
@@ -162,5 +162,13 @@ public extension Node {
         let nodeSuffix = other.prefix - commonPrefix
         let suffix = prefix - commonPrefix
         return Self(prefix: commonPrefix, value: nil, trueNode: nil, falseNode: nil).changing(truthValue: nodeSuffix.first!, node: other.changing(prefix: nodeSuffix)).changing(truthValue: suffix.first!, node: changing(prefix: suffix))
+    }
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        if lhs.prefix != rhs.prefix { return false }
+        let lhsValue = try? JSONEncoder().encode(lhs.value)
+        let rhsValue = try? JSONEncoder().encode(rhs.value)
+        if lhsValue != rhsValue { return false }
+        return lhs.trueNode == rhs.trueNode && lhs.falseNode == rhs.falseNode
     }
 }
