@@ -51,21 +51,21 @@ public extension Map {
         let serializedKey = key.toBoolArray()
         guard let firstBool = serializedKey.first else { return nil }
         guard let root = getRoot(truthValue: firstBool) else { return nil }
-        return root.get(key: serializedKey)
+        return root.get(key: ArraySlice(serializedKey))
     }
     
     func setting(key: Key, value: Value) -> Self {
         let serializedKey = key.toBoolArray()
         guard let firstBool = serializedKey.first else { return self }
         guard let childNode = getRoot(truthValue: firstBool) else { return changing(truthValue: firstBool, node: NodeType(prefix: serializedKey, value: value, trueNode: nil, falseNode: nil)) }
-        return changing(truthValue: firstBool, node: childNode.setting(key: serializedKey, to: value))
+        return changing(truthValue: firstBool, node: childNode.setting(key: ArraySlice(serializedKey), to: value))
     }
     
     func deleting(key: Key) -> Self {
         let serializedKey = key.toBoolArray()
         guard let firstBool = serializedKey.first else { return self }
         guard let childNode = getRoot(truthValue: firstBool) else { return self }
-        return changing(truthValue: firstBool, node: childNode.deleting(key: serializedKey))
+        return changing(truthValue: firstBool, node: childNode.deleting(key: ArraySlice(serializedKey)))
     }
     
     func keys() -> [Key] {
