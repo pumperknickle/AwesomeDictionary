@@ -172,3 +172,11 @@ public extension Node {
         return lhs.trueNode == rhs.trueNode && lhs.falseNode == rhs.falseNode
     }
 }
+
+extension Node where V: Equatable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        if lhs.prefix != rhs.prefix { return false }
+        if lhs.value != rhs.value { return false }
+        return lhs.trueNode == rhs.trueNode && lhs.falseNode == rhs.falseNode
+    }
+}
