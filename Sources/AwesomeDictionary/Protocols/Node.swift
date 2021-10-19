@@ -9,9 +9,9 @@ public protocol Node: Codable, Equatable {
     var trueNode: Self? { get }
     var falseNode: Self? { get }
     
-    func get(key: [Bool]) -> V?
-    func setting(key: [Bool], to value: V) -> Self
-    func deleting(key: [Bool]) -> Self?
+    func get(key: ArraySlice<Bool>) -> V?
+    func setting(key: ArraySlice<Bool>, to value: V) -> Self
+    func deleting(key: ArraySlice<Bool>) -> Self?
 	func first() -> ([Bool], V)
     
     init(prefix: [Bool], value: V?, trueNode: Self?, falseNode: Self?)
@@ -74,31 +74,33 @@ public extension Node {
         return (getNode(truthValue: false)?.allKeys(key: newKey) ?? []) + (getNode(truthValue: true)?.allKeys(key: newKey) ?? []) + (value == nil ? [] : [newKey])
     }
     
-    func get(key: [Bool]) -> V? {
+    func get(key: ArraySlice<Bool>) -> V? {
         if !key.starts(with: prefix) { return nil }
-        let suffix = key - prefix
+        let suffix = key.dropFirst(prefix.count)
         guard let firstValue = suffix.first else { return value }
         guard let childNode = getNode(truthValue: firstValue) else { return nil }
         return childNode.get(key: suffix)
     }
     
-    func setting(key: [Bool], to value: V) -> Self {
+    func setting(key: ArraySlice<Bool>, to value: V) -> Self {
         if key.count >= prefix.count && key.starts(with: prefix) {
-            let suffix = key - prefix
+            let suffix = key.dropFirst(prefix.count)
             guard let firstValue = suffix.first else { return changing(value: value) }
-            guard let childNode = getNode(truthValue: firstValue) else { return changing(truthValue: firstValue, node: Self(prefix: suffix, value: value, trueNode: nil, falseNode: nil)) }
+            guard let childNode = getNode(truthValue: firstValue) else { return changing(truthValue: firstValue, node: Self(prefix: Array(suffix), value: value, trueNode: nil, falseNode: nil)) }
             return changing(truthValue: firstValue, node: childNode.setting(key: suffix, to: value))
         }
-        if prefix.count > key.count && prefix.starts(with: key) {
-            let suffix = prefix - key
-            return Self(prefix: key, value: value, trueNode: nil, falseNode: nil).changing(truthValue: suffix.first!, node: changing(prefix: suffix))
+        let prefixSlice = ArraySlice(prefix)
+        if prefixSlice.count > key.count && prefixSlice.starts(with: key) {
+            let keyArray = Array(key)
+            let suffix = prefix - keyArray
+            return Self(prefix: keyArray, value: value, trueNode: nil, falseNode: nil).changing(truthValue: suffix.first!, node: changing(prefix: suffix))
         }
-        let parentPrefix = key ~> prefix
+        let parentPrefix = key ~> prefixSlice
         let newPrefix = key - parentPrefix
-        let oldPrefix = prefix - parentPrefix
-        let newNode = Self(prefix: newPrefix, value: value, trueNode: nil, falseNode: nil)
-        let oldNode = changing(prefix: oldPrefix)
-        return Self(prefix: parentPrefix, value: nil, trueNode: nil, falseNode: nil).changing(truthValue: newPrefix.first!, node: newNode).changing(truthValue: oldPrefix.first!, node: oldNode)
+        let oldPrefix = prefixSlice - parentPrefix
+        let newNode = Self(prefix: Array(newPrefix), value: value, trueNode: nil, falseNode: nil)
+        let oldNode = changing(prefix: Array(oldPrefix))
+        return Self(prefix: Array(parentPrefix), value: nil, trueNode: nil, falseNode: nil).changing(truthValue: newPrefix.first!, node: newNode).changing(truthValue: oldPrefix.first!, node: oldNode)
     }
     
     func deleting() -> Self? {
@@ -109,9 +111,9 @@ public extension Node {
         return node.changing(prefix: prefix + node.prefix)
     }
     
-    func deleting(key: [Bool]) -> Self? {
+    func deleting(key: ArraySlice<Bool>) -> Self? {
         if !key.starts(with: prefix) { return self }
-        let suffix = key - prefix
+        let suffix = key.dropFirst(prefix.count)
         guard let firstValue = suffix.first else { return deleting() }
         guard let child = getNode(truthValue: firstValue) else { return self }
         guard let childResult = child.deleting(key: suffix) else {
