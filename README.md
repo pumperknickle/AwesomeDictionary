@@ -1,21 +1,22 @@
-# Awesome Dictionary
+# Persistent Dictioonariess
 
-Awesome Dictionary is a pure Swift implementation of a Dictionary or an abstract data type composed of a collection of (key, value) pairs, such that each possible key appears at most once in the collection. Instead of using hash tables, it uses a radix trie, which is essentially a compressed trie.
+Awesome Dictionary is a pure Swift implementation of a persistent Dictionary, composed of a collection of codable (key, value) pairs, such that each possible key appears at most once in the collection. Instead of using hash tables, it uses a compressed trie representatioon.
 
 ## Features
 
-1. Functional
-- All operations create new objects.
-- All mappings in AwesomeDictionary are immutable.
-2. Generic
+1. Persistent
+- All versions are immutable.
+- All operations create new objects, potentially reusing subgraphs of previous versions.
+3. Generic
 - Can be used with any Key type that conforms to BinaryEncodable.
 - Can be used with any Value type that conforms to Codable.
-3. Deterministic
+4. Deterministic
 - Two dictionaries with the same key value pairs are guaranteed to be the same.
-- Two dictionaries with the same key value pairs are guaranteed to serialized the same byte for byte.
-4. Efficient
-- Modify existing dictionaries efficiently and functionally.
-5. Codable
+- Two dictionaries with the same key value pairs are guaranteed to serialized exactly the same byte for byte.
+5. Efficient
+- Deletes maintain the Trie in a compact canonical form.
+- Equality "short circuit".
+6. Codable
 - Easily serializable to and from JSON and other encodings.
   
   
