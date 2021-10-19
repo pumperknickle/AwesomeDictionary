@@ -1,4 +1,4 @@
-# Persistent Dictioonariess
+# Persistent Dictionaries
 
 Awesome Dictionary is a pure Swift implementation of a persistent Dictionary, composed of a collection of codable (key, value) pairs, such that each possible key appears at most once in the collection. Instead of using hash tables, it uses a compressed trie representatioon.
 
