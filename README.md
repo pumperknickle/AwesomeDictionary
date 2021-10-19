@@ -1,6 +1,6 @@
 # Persistent Dictionaries
 
-Awesome Dictionary is a pure Swift implementation of a persistent Dictionary, composed of a collection of codable (key, value) pairs, such that each possible key appears at most once in the collection. Instead of using hash tables, it uses a compressed trie representatioon.
+Awesome Dictionary is a pure Swift implementation of a persistent Dictionary, composed of a collection of codable (key, value) pairs, such that each possible key appears at most once in the collection. Instead of using hash tables, it uses a compressed trie representatioon. Unlike [HAMT](https://en.wikipedia.org/wiki/Hash_array_mapped_trie), and [CHAMP](https://github.com/usethesource/capsule), it does not hash the key, before inserting. No collission management is necessary.
 
 ## Features
 
