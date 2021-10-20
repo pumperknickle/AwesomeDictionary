@@ -33,12 +33,20 @@ final class MappingSpec: QuickSpec {
                 expect(map1.keys()).to(contain(key1))
                 expect(map1.keys()).to(contain(key2))
                 expect(map1.keys()).to(contain(key3))
+                expect(map1.keysIterative().count).to(equal(3))
+                expect(map1.keysIterative()).to(contain(key1))
+                expect(map1.keysIterative()).to(contain(key2))
+                expect(map1.keysIterative()).to(contain(key3))
             }
             it("should be able to get all values") {
                 expect(map1.values().count).to(equal(3))
                 expect(map1.values()).to(contain(value1))
                 expect(map1.values()).to(contain(value2))
                 expect(map1.values()).to(contain(value3))
+                expect(map1.valuesIterative().count).to(equal(3))
+                expect(map1.valuesIterative()).to(contain(value1))
+                expect(map1.valuesIterative()).to(contain(value2))
+                expect(map1.valuesIterative()).to(contain(value3))
             }
             it("should be equal bit for bit") {
                 expect(data1).to(equal(data2))
