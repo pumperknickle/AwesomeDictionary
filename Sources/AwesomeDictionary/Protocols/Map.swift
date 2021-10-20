@@ -87,6 +87,39 @@ public extension Map {
             return elements + [(entry, self[entry]!)]
         })
     }
+    
+    func elementsIterative() -> [Element] {
+        var toVisit = Stack<(prefix: [Bool], node: NodeType)>()
+        var elements = [Element]()
+        if let trueNode = trueNode {
+            toVisit.push((prefix: [], node: trueNode))
+        }
+        if let falseNode = falseNode {
+            toVisit.push((prefix: [], node: falseNode))
+        }
+        while (toVisit.peek() != nil) {
+            var current = toVisit.peek()!
+            current.prefix.append(contentsOf: current.node.prefix)
+            if let currentValue = current.node.value, let key = Key(raw: current.prefix) {
+                elements.append((key, currentValue))
+            }
+            if let currentTrue = current.node.trueNode {
+                toVisit.push((prefix: current.prefix, node: currentTrue))
+            }
+            if let currentFalse = current.node.falseNode {
+                toVisit.push((prefix: current.prefix, node: currentFalse))
+            }
+        }
+        return elements
+    }
+    
+    func keysIterative() -> [Key] {
+        return elements().map { $0.0 }
+    }
+    
+    func valuesIterative() -> [Value] {
+        return elements().map { $0.1 }
+    }
 	
 	func first() -> Element? {
 		if let falseResult = falseNode?.first() {
@@ -114,5 +147,18 @@ public extension Map {
     
     static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.trueNode == rhs.trueNode && lhs.falseNode == rhs.falseNode
+    }
+}
+
+struct Stack<Element> {
+    var elements: [Element] = []
+    mutating func push(_ item: Element) {
+        elements.append(item)
+    }
+    mutating func pop() -> Element {
+        return elements.removeLast()
+    }
+    func peek() -> Element? {
+        return elements.last
     }
 }
