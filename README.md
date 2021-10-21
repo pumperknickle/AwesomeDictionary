@@ -18,8 +18,8 @@ Awesome Dictionary is a pure Swift implementation of a persistent Dictionary, co
 - Equality "short circuit".
 6. Codable
 - Easily serializable to and from JSON and other encodings.
-7. Merge Functionality
-- Efficiently merge two dictionaries, where runtime is O(m + n) where m and n are the number of nodes for both dictionaries.
+7. Merge
+- Merge two dictionaries, where runtime is O(m + n) where m and n are the number of nodes for both dictionaries.
   
   
 ## Installation
