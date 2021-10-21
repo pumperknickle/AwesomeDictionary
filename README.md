@@ -34,6 +34,13 @@ dependencies: [
 ]
 ```
 
+## Benchmarks
+
+Run benchmarks
+```sh
+swift run -c release my-benchmark run results --cycles 1
+```
+
 ## Usage
 
 #### Importing
